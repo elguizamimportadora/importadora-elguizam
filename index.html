@@ -225,15 +225,22 @@ function render(){
   catOrder.forEach(cat=>{
     if(!grouped[cat])return;
     h+=`<div class="ctitle">${catLabels[cat]||cat}</div>`;
-    grouped[cat].forEach(p=>{
+        grouped[cat].forEach(p=>{
       const qty=cart[p.code]||0;
+      const agotado=p.disp==='NO';
+      let right='';
+      if(agotado){
+        right=`<span class="pprice" style="color:#aaa;font-weight:400">Agotado</span>`;
+      }else{
+        right=`<span class="pprice">$${p.p.toFixed(2)}</span>`;
+        right+= qty>0
+          ? `<div class="qctrl"><button onclick="chg('${p.code}',-1)">−</button><span>${qty}</span><button onclick="chg('${p.code}',1)">+</button></div>`
+          : `<button class="abtn" onclick="add('${p.code}')">+ Agregar</button>`;
+      }
       h+=`<div class="prow">
         <span class="pcode">${p.code}</span>
         <span class="pname">${p.n}</span>
-        <span class="pprice">$${p.p.toFixed(2)}</span>
-        ${qty>0
-          ?`<div class="qctrl"><button onclick="chg('${p.code}',-1)">−</button><span>${qty}</span><button onclick="chg('${p.code}',1)">+</button></div>`
-          :`<button class="abtn" onclick="add('${p.code}')">+ Agregar</button>`}
+        ${right}
       </div>`;
     });
   });
