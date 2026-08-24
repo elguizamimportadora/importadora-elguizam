@@ -161,22 +161,24 @@ const catLabels = {"CILINDROS DE PUERTA/ABREPUERTA":"Cilindros de puerta","CINTU
 
 let P=[], cart={}, curCat='all';
 
-function parseCSV(text){
+  function parseCSV(text){
   const lines=text.split('\n');
   const products=[];
   let currentCat='';
   for(let line of lines){
     const cols=line.split(',').map(c=>c.replace(/^"|"$/g,'').trim());
-    const name=cols[0]||'', orden=cols[1]||'', code=cols[2]||'', price=cols[3]||'';
+    const name=cols[0]||'', orden=cols[1]||'', code=cols[2]||'', price=cols[3]||'', disp=(cols[4]||'SI').trim().toUpperCase();
     if(!name||name==='DETALLE'||name.startsWith('VENTAS')||name.startsWith('E-mail')||name.includes('LISTA DE PRECIOS'))continue;
     if(code==='REFERENCIA'||code==='CODIGO'||(!code&&!price)){currentCat=name.trim();continue;}
     if(code&&price&&code!=='REFERENCIA'){
       const p=parseFloat(price.replace(/[^0-9.,]-/g,"").replace(",",".").trim());
-      if(!isNaN(p)&&p>0)products.push({c:currentCat,code:code.trim(),n:name.trim(),p});
+      if(!isNaN(p)&&p>0)products.push({c:currentCat,code:code.trim(),n:name.trim(),p,disp});
     }
   }
   return products;
 }
+
+u
 
 async function loadSheet(){
   try{
