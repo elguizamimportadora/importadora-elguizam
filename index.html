@@ -171,7 +171,7 @@ let P=[], cart={}, curCat='all';
     if(!name||name==='DETALLE'||name.startsWith('VENTAS')||name.startsWith('E-mail')||name.includes('LISTA DE PRECIOS'))continue;
     if(code==='REFERENCIA'||code==='CODIGO'||(!code&&!price)){currentCat=name.trim();continue;}
     if(code&&price&&code!=='REFERENCIA'){
-      const p=parseFloat(price.replace(/[^0-9.,]-/g.replace(",",".").trim());
+            const p=parseFloat(price.replace(/[^0-9.,-]/g,"").replace(",",".").trim());
       if(!isNaN(p)&&p>0)products.push({c:currentCat,code:code.trim(),n:name.trim(),p,disp});
     }
   }
