@@ -29,17 +29,17 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#fff;color:#1a1a1
 .list{flex:1;padding:1rem;overflow-y:auto;max-height:calc(100vh - 68px)}
 .ctitle{font-size:10px;font-weight:600;color:#888;padding:12px 0 6px;border-bottom:1px solid #eee;margin-bottom:2px;letter-spacing:.04em;text-transform:uppercase}
 .ctitle:first-child{padding-top:0}
-.prow{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f0f0ee}
-.prow:last-child{border:none}
-.pimg{width:40px;height:40px;object-fit:cover;border-radius:4px;flex-shrink:0}
-.pcode{font-size:10px;color:#aaa;font-family:monospace;min-width:110px;flex-shrink:0}
-.pname{font-size:12px;color:#1a1a1a;flex:1;line-height:1.35}
-.pprice{font-size:13px;font-weight:600;color:#1a6621;min-width:52px;text-align:right;flex-shrink:0}
-.qctrl{display:flex;align-items:center;gap:3px;flex-shrink:0}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:10px}
+.prow{display:flex;flex-direction:column;gap:4px;padding:8px;border:1px solid #f0f0ee;border-radius:8px}
+.pimg{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:6px;background:#f5f5f3}
+.pcode{font-size:10px;color:#aaa;font-family:monospace}
+.pname{font-size:12px;color:#1a1a1a;line-height:1.3;flex:1}
+.pprice{font-size:14px;font-weight:600;color:#1a6621}
+.qctrl{display:flex;align-items:center;justify-content:space-between;gap:3px}
 .qctrl button{width:28px;height:28px;border:1px solid #ddd;background:#f9f9f7;border-radius:6px;cursor:pointer;font-size:16px;color:#333;display:flex;align-items:center;justify-content:center}
 .qctrl button:hover{background:#eee}
 .qctrl span{min-width:22px;text-align:center;font-size:13px;font-weight:600}
-.abtn{padding:6px 12px;background:#fff;border:1px solid #1a3a8c;border-radius:6px;font-size:12px;cursor:pointer;color:#1a3a8c;flex-shrink:0;font-weight:500}
+.abtn{padding:6px 12px;background:#fff;border:1px solid #1a3a8c;border-radius:6px;font-size:12px;cursor:pointer;color:#1a3a8c;font-weight:500;width:100%}
 .abtn:hover{background:#E8EEF9}
 .empty-msg{font-size:13px;color:#aaa;padding:2rem;text-align:center}
 .loading{font-size:13px;color:#1a3a8c;padding:2rem;text-align:center}
@@ -89,9 +89,8 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#fff;color:#1a1a1
   .sb{display:inline-block;width:auto;padding:5px 10px;border:1px solid #ddd;border-radius:20px;font-size:11px;margin-bottom:0;white-space:nowrap}
   .sb.on{border-color:#1a3a8c}
   .list{max-height:none;padding:.75rem}
-  .prow{flex-wrap:wrap;gap:4px;padding:10px 0}
-  .pcode{min-width:auto;width:100%;font-size:10px}
-  .pname{font-size:13px;width:100%;flex:none}
+  .pgrid{grid-template-columns:repeat(2,1fr);gap:8px}
+  .pname{font-size:12px}
   .pprice{font-size:14px;font-weight:700}
   .abtn{padding:7px 14px;font-size:12px}
   .cart-panel{display:none}
@@ -221,10 +220,10 @@ function render(){
   const el=document.getElementById('pl');
   if(!list.length){el.innerHTML='<p class="empty-msg">No se encontraron productos</p>';return;}
   let h='';
-  catOrder.forEach(cat=>{
+    catOrder.forEach(cat=>{
     if(!grouped[cat])return;
-    h+=`<div class="ctitle">${catLabels[cat]||cat}</div>`;
-        grouped[cat].forEach(p=>{
+    h+=`<div class="ctitle">${catLabels[cat]||cat}</div><div class="pgrid">`;
+    grouped[cat].forEach(p=>{
       const qty=cart[p.code]||0;
       const agotado=p.disp==='NO';
       let right='';
@@ -236,13 +235,14 @@ function render(){
           ? `<div class="qctrl"><button onclick="chg('${p.code}',-1)">−</button><span>${qty}</span><button onclick="chg('${p.code}',1)">+</button></div>`
           : `<button class="abtn" onclick="add('${p.code}')">+ Agregar</button>`;
       }
-           h+=`<div class="prow">
+      h+=`<div class="prow">
         <img class="pimg" src="fotos/${p.code}.jpg" onerror="this.style.display='none'" alt="">
         <span class="pcode">${p.code}</span>
         <span class="pname">${p.n}</span>
         ${right}
       </div>`;
     });
+    h+=`</div>`;
   });
   el.innerHTML=h;
 }
