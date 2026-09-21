@@ -31,6 +31,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#fff;color:#1a1a1
 .ctitle:first-child{padding-top:0}
 .prow{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f0f0ee}
 .prow:last-child{border:none}
+.pimg{width:40px;height:40px;object-fit:cover;border-radius:4px;flex-shrink:0}
 .pcode{font-size:10px;color:#aaa;font-family:monospace;min-width:110px;flex-shrink:0}
 .pname{font-size:12px;color:#1a1a1a;flex:1;line-height:1.35}
 .pprice{font-size:13px;font-weight:600;color:#1a6621;min-width:52px;text-align:right;flex-shrink:0}
@@ -235,7 +236,8 @@ function render(){
           ? `<div class="qctrl"><button onclick="chg('${p.code}',-1)">−</button><span>${qty}</span><button onclick="chg('${p.code}',1)">+</button></div>`
           : `<button class="abtn" onclick="add('${p.code}')">+ Agregar</button>`;
       }
-      h+=`<div class="prow">
+           h+=`<div class="prow">
+        <img class="pimg" src="fotos/${p.code}.jpg" onerror="this.style.display='none'" alt="">
         <span class="pcode">${p.code}</span>
         <span class="pname">${p.n}</span>
         ${right}
