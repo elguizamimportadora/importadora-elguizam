@@ -239,7 +239,7 @@ function render(){
           : `<button class="abtn" onclick="add('${p.code}')">+ Agregar</button>`;
       }
       h+=`<div class="prow">
-        <img class="pimg" src="fotos/${p.code}.jpg" onerror="imgFallback(this,'${p.code}')" alt="">
+        <img class="pimg" loading="lazy" decoding="async" src="fotos/${p.code}.jpg" onerror="imgFallback(this,'${p.code}')" alt="">
         <span class="pcode">${p.code}</span>
         <span class="pname">${p.n}</span>
         ${right}
